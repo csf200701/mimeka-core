@@ -3,7 +3,7 @@
   	<!-- <groupId>com.igd.mimeka</groupId> -->
   	<groupId>io.github.csf200701</groupId>
   	<artifactId>mimeka-core</artifactId>
-  	<version>1.0.2</version>
+  	<version>1.0.3</version>
   	<url>https://github.com/csf200701/mimeka-core</url>
 	<description> MIME TYPE for Java </description>
 	<name>Mimeka Core</name>
