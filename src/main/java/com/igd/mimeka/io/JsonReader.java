@@ -19,11 +19,11 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 @SuppressWarnings("restriction")
 public class JsonReader {
 	
-	//»ù´¡Êı¾İÀàĞÍ
+	//åŸºç¡€æ•°æ®ç±»å‹
     private static final Set<String> BASE_CLASS_TYPE = new HashSet<>(Arrays.asList("String", "Integer", "Double", "Long", "Boolean"));
-    //¼¯ºÏ¿ò¼Ü½Ó¿Ú
+    //é›†åˆæ¡†æ¶æ¥å£
     private static final Set<String> COLLECT_CLASS_TYPE = new HashSet<>(Arrays.asList("java.util.List", "java.util.Map"));
-    //À´×Ôjdk8µÄScriptEngine£¬js½Å±¾´¦ÀíÒıÇæ
+    //æ¥è‡ªjdk8çš„ScriptEngineï¼Œjsè„šæœ¬å¤„ç†å¼•æ“
     private static final ScriptEngine Engine = new ScriptEngineManager().getEngineByName("nashorn");
  
  
@@ -41,35 +41,35 @@ public class JsonReader {
 	private static <T> T parse(ScriptObjectMirror scriptObjectMirror, TypeReference<T> typeReference)
         throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         Class classZz = Class.forName(typeReference.getTypeName());
-        //Èç¹û·ºĞÍ¼Ì³Ğ×Ô¼¯ºÏ£¬¾Í×ß¼¯ºÏ´¦Àí·½Ê½
+        //å¦‚æœæ³›å‹ç»§æ‰¿è‡ªé›†åˆï¼Œå°±èµ°é›†åˆå¤„ç†æ–¹å¼
         for (Class c : classZz.getInterfaces()) {
             if (COLLECT_CLASS_TYPE.contains(c.getTypeName())) {
                 return (T)collectionParse(scriptObjectMirror,typeReference);
             }
         }
-        //ÓĞ¿ÉÄÜ·ºĞÍÖ±½Ó¾ÍĞ´½Ó¿Ú£¬×ß¼¯ºÏ´¦Àí·½Ê½
+        //æœ‰å¯èƒ½æ³›å‹ç›´æ¥å°±å†™æ¥å£ï¼Œèµ°é›†åˆå¤„ç†æ–¹å¼
         if (COLLECT_CLASS_TYPE.contains(typeReference.getTypeName())) {
             return (T)collectionParse(scriptObjectMirror,typeReference);
         }
-        //·´Éä»ñÈ¡Ò»¸ö¶ÔÏó
+        //åå°„è·å–ä¸€ä¸ªå¯¹è±¡
         Object object = classZz.newInstance();
-        //±éÀú¶ÁÈ¡µ½µÄÊı¾İ
+        //éå†è¯»å–åˆ°çš„æ•°æ®
         for (String key : scriptObjectMirror.keySet()) {
             Object value = scriptObjectMirror.get(key);
-            //»ù´¡Êı¾İÀàĞÍÍ¨¹ı·´ÉäÖ±½Óset
+            //åŸºç¡€æ•°æ®ç±»å‹é€šè¿‡åå°„ç›´æ¥set
             if (BASE_CLASS_TYPE.contains(value.getClass().getSimpleName())) {
                 setValue(object, key, value);
             } else if ("ScriptObjectMirror".contains(value.getClass().getSimpleName())) {
-                //Éî¶ÈÊôĞÔ
+                //æ·±åº¦å±æ€§
                 Class classZz1 = getValueClass(object, key);
                 if (classZz1 != null) {
                     TypeReference typeReference1 = new TypeReference(){};
                     typeReference1.setTypeName(classZz1.getTypeName());
-                    //µİ¹é£¬ÊôĞÔ¿ÉÄÜ²»ÊÇ»ù´¡Êı¾İÀàĞÍ
+                    //é€’å½’ï¼Œå±æ€§å¯èƒ½ä¸æ˜¯åŸºç¡€æ•°æ®ç±»å‹
                     setValue(object, key, parse((ScriptObjectMirror)value, typeReference1));
                 }
             }else{
-                //»ù´¡Êı¾İÀàĞÍ²»ÖªµÀÓĞÃ»ÓĞĞ´È«£¬·´Õı³ıÁËScriptObjectMirror¶ÔÏó£¬Ö±½ÓÈû¸øËû
+                //åŸºç¡€æ•°æ®ç±»å‹ä¸çŸ¥é“æœ‰æ²¡æœ‰å†™å…¨ï¼Œåæ­£é™¤äº†ScriptObjectMirrorå¯¹è±¡ï¼Œç›´æ¥å¡ç»™ä»–
                 setValue(object, key, value);
             }
         }
@@ -77,7 +77,7 @@ public class JsonReader {
     }
  
     /**
-     * »ñÈ¡objectÖĞfiledNameÊôĞÔµÄÀà£¬²»´æÔÚÊôĞÔfiledNameÔò·µ»Ønull
+     * è·å–objectä¸­filedNameå±æ€§çš„ç±»ï¼Œä¸å­˜åœ¨å±æ€§filedNameåˆ™è¿”å›null
      * @param object
      * @param filedName
      * @return
@@ -93,7 +93,7 @@ public class JsonReader {
     }
  
     /**
-     * ½«value¸³Öµ¸øobjµÄfiledNameÊôĞÔ
+     * å°†valueèµ‹å€¼ç»™objçš„filedNameå±æ€§
      * @param object
      * @param filedName
      * @param value
@@ -109,17 +109,17 @@ public class JsonReader {
     }
  
     /**
-     * ´¦ÀímapºÍlistÕâÖÖÖ±½ÓµÄÊı¾İ½á¹¹
+     * å¤„ç†mapå’Œlistè¿™ç§ç›´æ¥çš„æ•°æ®ç»“æ„
      * @param scriptObjectMirror
      * @return
      */
     @SuppressWarnings("rawtypes")
 	private static Object collectionParse(ScriptObjectMirror scriptObjectMirror ,TypeReference<?> typeReference)
         throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        //ÔÚ×Ó·ºĞÍµÄÊ±ºò¿ÉÄÜ»á³öÏÖnull£¬Õâ¸öÊ±ºòÓÃÄ¬ÈÏ¼¯ºÏÂß¼­
+        //åœ¨å­æ³›å‹çš„æ—¶å€™å¯èƒ½ä¼šå‡ºç°nullï¼Œè¿™ä¸ªæ—¶å€™ç”¨é»˜è®¤é›†åˆé€»è¾‘
         if(typeReference != null){
             Class<?> classZz = Class.forName(typeReference.getTypeName());
-            //Èç¹û·ºĞÍ½øÀ´ºÍ¼¯ºÏÃ»¹ØÏµ£¬¾Í×ßÆÕÍ¨ÀàĞÍ
+            //å¦‚æœæ³›å‹è¿›æ¥å’Œé›†åˆæ²¡å…³ç³»ï¼Œå°±èµ°æ™®é€šç±»å‹
             boolean temp = true;
             for (Class<?> c : classZz.getInterfaces()) {
                 if (COLLECT_CLASS_TYPE.contains(c.getTypeName())) {
@@ -131,11 +131,11 @@ public class JsonReader {
                 temp = false;
             }
             if (temp) {
-                //Èç¹û·ºĞÍµÄ¶«Î÷²»ÊÇ¼¯ºÏÏà¹Ø£¬ÄÇÃ´¾Í×öÆÕÍ¨¶ÔÏó´¦Àí
+                //å¦‚æœæ³›å‹çš„ä¸œè¥¿ä¸æ˜¯é›†åˆç›¸å…³ï¼Œé‚£ä¹ˆå°±åšæ™®é€šå¯¹è±¡å¤„ç†
                 return parse(scriptObjectMirror, typeReference);
             }
         }else{
-            //¸ø¸ö¿ÕµÄ£¬±ÜÃâÌ«ÉîÁËÓöµ½Âé·³
+            //ç»™ä¸ªç©ºçš„ï¼Œé¿å…å¤ªæ·±äº†é‡åˆ°éº»çƒ¦
             typeReference = new TypeReference(){};
         }
         if (scriptObjectMirror.isArray()) {
@@ -144,32 +144,32 @@ public class JsonReader {
                 Object object = scriptObjectMirror.getSlot(i);
                 if ("ScriptObjectMirror".contains(object.getClass().getSimpleName())) {
                 	ScriptObjectMirror scriptObjectMirror1 = (ScriptObjectMirror)object;
-                	//µİ¹é£¬¼¯ºÏÀïÃæµÄ²»ÖªµÀÊÇÊ²Ã´ÀàĞÍ¡£Èç¹û·ºĞÍÓĞ¸øÀàĞÍµÄ»°£¬ÓÃ·ºĞÍµÄ£¬Ã»ÓĞµÄ»°¾ÍÊÇnull
+                	//é€’å½’ï¼Œé›†åˆé‡Œé¢çš„ä¸çŸ¥é“æ˜¯ä»€ä¹ˆç±»å‹ã€‚å¦‚æœæ³›å‹æœ‰ç»™ç±»å‹çš„è¯ï¼Œç”¨æ³›å‹çš„ï¼Œæ²¡æœ‰çš„è¯å°±æ˜¯null
                     list.add(collectionParse(scriptObjectMirror1,typeReference.getSubTypeReference()));
                 } else {
-                	//µİ¹é£¬¼¯ºÏÀïÃæµÄ²»ÖªµÀÊÇÊ²Ã´ÀàĞÍ¡£Èç¹û·ºĞÍÓĞ¸øÀàĞÍµÄ»°£¬ÓÃ·ºĞÍµÄ£¬Ã»ÓĞµÄ»°¾ÍÊÇnull
+                	//é€’å½’ï¼Œé›†åˆé‡Œé¢çš„ä¸çŸ¥é“æ˜¯ä»€ä¹ˆç±»å‹ã€‚å¦‚æœæ³›å‹æœ‰ç»™ç±»å‹çš„è¯ï¼Œç”¨æ³›å‹çš„ï¼Œæ²¡æœ‰çš„è¯å°±æ˜¯null
                     list.add(object);
                 }
                 
             }
             return list;
         } else {
-            //ÉèÖÃ´óĞ¡Îª Êı¾İ³¤¶È*1.25£¬±ÜÃâÒòÎªÀ©Èİ¶øÀË·ÑÊ±¼ä£¬mapĞèÒª1.25£¬ÍüÁËÔ´ÂëÀïÃæĞ´µÄÉ¶ÁË£¬ËûĞ´µÄ0.75
+            //è®¾ç½®å¤§å°ä¸º æ•°æ®é•¿åº¦*1.25ï¼Œé¿å…å› ä¸ºæ‰©å®¹è€Œæµªè´¹æ—¶é—´ï¼Œmapéœ€è¦1.25ï¼Œå¿˜äº†æºç é‡Œé¢å†™çš„å•¥äº†ï¼Œä»–å†™çš„0.75
             Double size = scriptObjectMirror.size() * 1.25;
             int capacity = size.intValue() + 1;
             Map<String, Object> map = new HashMap<>(capacity);
             for (String key : scriptObjectMirror.keySet()) {
                 Object object = scriptObjectMirror.get(key);
                 if (BASE_CLASS_TYPE.contains(object.getClass().getSimpleName())) {
-                    //Èç¹ûÊÇ»ù´¡Êı¾İÀàĞÍ¾ÍÖ±½ÓÈû¸øËû
+                    //å¦‚æœæ˜¯åŸºç¡€æ•°æ®ç±»å‹å°±ç›´æ¥å¡ç»™ä»–
                     map.put(key, object);
                 } else if ("ScriptObjectMirror".contains(object.getClass().getSimpleName())) {
-                    //²»ÊÇ»ù´¡Êı¾İÀàĞÍ£¬µİ¹é´¦Àí
+                    //ä¸æ˜¯åŸºç¡€æ•°æ®ç±»å‹ï¼Œé€’å½’å¤„ç†
                     ScriptObjectMirror scriptObjectMirror1 = (ScriptObjectMirror)object;
-                    //µİ¹é£¬¼¯ºÏÀïÃæµÄ²»ÖªµÀÊÇÊ²Ã´ÀàĞÍ¡£Èç¹û·ºĞÍÓĞ¸øÀàĞÍµÄ»°£¬ÓÃ·ºĞÍµÄ£¬Ã»ÓĞµÄ»°¾ÍÊÇnull
+                    //é€’å½’ï¼Œé›†åˆé‡Œé¢çš„ä¸çŸ¥é“æ˜¯ä»€ä¹ˆç±»å‹ã€‚å¦‚æœæ³›å‹æœ‰ç»™ç±»å‹çš„è¯ï¼Œç”¨æ³›å‹çš„ï¼Œæ²¡æœ‰çš„è¯å°±æ˜¯null
                     map.put(key, collectionParse(scriptObjectMirror1,typeReference.getSubTypeReference()));
                 }else{
-                    //»ù´¡Êı¾İÀàĞÍ²»ÖªµÀÓĞÃ»ÓĞĞ´È«£¬·´Õı³ıÁËScriptObjectMirror¶ÔÏó£¬È«²¿Ö±½ÓÈû¸øËû
+                    //åŸºç¡€æ•°æ®ç±»å‹ä¸çŸ¥é“æœ‰æ²¡æœ‰å†™å…¨ï¼Œåæ­£é™¤äº†ScriptObjectMirrorå¯¹è±¡ï¼Œå…¨éƒ¨ç›´æ¥å¡ç»™ä»–
                     map.put(key, object);
                 }
             }

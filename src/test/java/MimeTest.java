@@ -7,12 +7,12 @@ public class MimeTest {
 	
 	public static void testDetect() {
 		MimeKa mimeKa = new MimeKa();
-		System.out.println(mimeKa.detect(FileUtils.file2byte(new File("D:\\¹¤×÷Çø\\Í¶×Ê\\¹ÉÆ±\\¼ÛÖµÍ¶×Ê\\ÉÏÖ¤Ö¸Êı³É·Ö¹É-20211106.xls"))));
-		System.out.println(mimeKa.detect(FileUtils.file2byte(new File("D:\\¹¤×÷Çø\\1_ÈçºÎÕÒµ½100±¶»Ø±¨µÄ¹ÉÆ±.pdf"))));
-		System.out.println(mimeKa.detect(FileUtils.file2byte(new File("D:\\¹¤×÷Çø\\³ÂÊ±·å-¸öÈË¼òÀú - 22.doc"))));
-		System.out.println(mimeKa.detect(FileUtils.file2byte(new File("D:\\¹¤×÷Çø\\Í¶×Ê\\¹ÉÆ±\\Ö¸Êı¹ÀÖµ±í.docx")), "Ö¸Êı¹ÀÖµ±í.docx"));
+		System.out.println(mimeKa.detect(FileUtils.file2byte(new File("D:\\å·¥ä½œåŒº\\æŠ•èµ„\\è‚¡ç¥¨\\ä»·å€¼æŠ•èµ„\\ä¸Šè¯æŒ‡æ•°æˆåˆ†è‚¡-20211106.xls"))));
+		System.out.println(mimeKa.detect(FileUtils.file2byte(new File("D:\\å·¥ä½œåŒº\\1_å¦‚ä½•æ‰¾åˆ°100å€å›æŠ¥çš„è‚¡ç¥¨.pdf"))));
+		System.out.println(mimeKa.detect(FileUtils.file2byte(new File("D:\\å·¥ä½œåŒº\\é™ˆæ—¶å³°-ä¸ªäººç®€å† - 22.doc"))));
+		System.out.println(mimeKa.detect(FileUtils.file2byte(new File("D:\\å·¥ä½œåŒº\\æŠ•èµ„\\è‚¡ç¥¨\\æŒ‡æ•°ä¼°å€¼è¡¨.docx")), "æŒ‡æ•°ä¼°å€¼è¡¨.docx"));
 		System.out.println(mimeKa.detect(FileUtils.file2byte(new File("D:\\projects\\igd-test\\src\\main\\java\\FileUtils.java"))));
-		System.out.println(mimeKa.detect(FileUtils.file2byte(new File("D:\\¹¤×÷Çø\\ÈÕ³£¿ªÖ§\\git\\daily-z\\ÈÕ³£¿ªÖ§-2022.xlsx")), "ÈÕ³£¿ªÖ§-2022.xlsx"));
+		System.out.println(mimeKa.detect(FileUtils.file2byte(new File("D:\\å·¥ä½œåŒº\\æ—¥å¸¸å¼€æ”¯\\git\\daily-z\\æ—¥å¸¸å¼€æ”¯-2022.xlsx")), "æ—¥å¸¸å¼€æ”¯-2022.xlsx"));
 	}
 	
 	public static void main(String[] args) {

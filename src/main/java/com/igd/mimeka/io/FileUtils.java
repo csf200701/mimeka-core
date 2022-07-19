@@ -8,7 +8,7 @@ import java.io.IOException;
 public class FileUtils {
 	
 	/**
-     * File转byte[]数组
+     * File杞琤yte[]鏁扮粍
      *
      * @param fileFullPath
      * @return
@@ -21,7 +21,7 @@ public class FileUtils {
     }
  
     /**
-     * File转byte[]数组
+     * File杞琤yte[]鏁扮粍
      *
      * @param file
      * @return
@@ -59,7 +59,7 @@ public class FileUtils {
     }
  
     /**
-     * byte[]数组转File
+     * byte[]鏁扮粍杞現ile
      *
      * @param bytes
      * @param fileFullPath
@@ -72,7 +72,7 @@ public class FileUtils {
         FileOutputStream fileOutputStream = null;
         try {
             File file = new File(fileFullPath);
-            //判断文件是否存在
+            //鍒ゆ柇鏂囦欢鏄惁瀛樺湪
             if (file.exists()) {
                 file.mkdirs();
             }

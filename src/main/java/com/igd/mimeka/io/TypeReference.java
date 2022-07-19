@@ -4,25 +4,25 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * ÀàĞÍÖ§³ÖÀà£¬ÓÃÀ´´æ·ÅÉî¶È·ºĞÍµÄ
+ * ç±»å‹æ”¯æŒç±»ï¼Œç”¨æ¥å­˜æ”¾æ·±åº¦æ³›å‹çš„
  * @param <T>
  */
 public class TypeReference<T> {
-    //Í¨¹ınewµÄÊ±ºòÖ¸¶¨µÄ·ºĞÍ
+    //é€šè¿‡newçš„æ—¶å€™æŒ‡å®šçš„æ³›å‹
     private Type type;
-    //¹Ø¼ü²ÎÊı,·´ÉäÓÃµÄÊÇÕâ¸ö
+    //å…³é”®å‚æ•°,åå°„ç”¨çš„æ˜¯è¿™ä¸ª
     private String typeName;
-    //×Ó·ºĞÍÖ§³Ö
+    //å­æ³›å‹æ”¯æŒ
     TypeReference<T> subTypeReference;
     protected TypeReference() {
         Type superClass = getClass().getGenericSuperclass();
-        //½âÎö·ºĞÍ
+        //è§£ææ³›å‹
         if (!superClass.getTypeName().endsWith("TypeReference")
             && !superClass.getTypeName().equals("java.lang.Object")) {
             type = ((ParameterizedType)superClass).getActualTypeArguments()[0];
             String name = type.getTypeName();
             typeName = name;
-            //ÕâÀïÊÇ³öÏÖÁË·ºĞÍÄÚ²¿»¹ÓĞ·ºĞÍµÄÇé¿ö
+            //è¿™é‡Œæ˜¯å‡ºç°äº†æ³›å‹å†…éƒ¨è¿˜æœ‰æ³›å‹çš„æƒ…å†µ
             if(name.contains("<")){
                 typeName = name.substring(0,name.indexOf("<"));
                 String subTypeClassName = name.substring(name.indexOf("<")+1,name.lastIndexOf(">"));
@@ -33,18 +33,18 @@ public class TypeReference<T> {
     }
  
     /**
-     * ÊÖ¶¯setÀàĞÍ
+     * æ‰‹åŠ¨setç±»å‹
      * @param typeName
      */
     public void setTypeName(String typeName) {
-        //ÕâÀïÊÇ³öÏÖÁË·ºĞÍÄÚ²¿»¹ÓĞ·ºĞÍµÄÇé¿ö
+        //è¿™é‡Œæ˜¯å‡ºç°äº†æ³›å‹å†…éƒ¨è¿˜æœ‰æ³›å‹çš„æƒ…å†µ
         if(typeName.contains("<")){
             this.typeName = typeName.substring(0,typeName.indexOf("<")).trim();
             String subTypeClassName = typeName.substring(typeName.indexOf("<")+1,typeName.lastIndexOf(">"));
             subTypeReference = new TypeReference<>();
             subTypeReference.setTypeName(subTypeClassName);
         }else if(typeName.contains(",")){
-            //ÕâÀïÊÇ³öÏÖÁË¶à¸ö·ºĞÍÇé¿ö£¬Èç Map<String ,User> ÕâÀïÈ¡User
+            //è¿™é‡Œæ˜¯å‡ºç°äº†å¤šä¸ªæ³›å‹æƒ…å†µï¼Œå¦‚ Map<String ,User> è¿™é‡Œå–User
             typeName = typeName.substring(typeName.indexOf(",")+1).trim();
             this.typeName = typeName;
         }else{
